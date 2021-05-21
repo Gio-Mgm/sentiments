@@ -1,5 +1,5 @@
 import joblib
-from models.autokeras_model import fit_sequential
+from models.mods.model_keras_sequential import fit_sequential
 from tensorflow.keras.models import load_model
 import autokeras as ak
 
@@ -37,7 +37,7 @@ MODELS_LOAD = [
     joblib.load('./models/dumps/random_forest.joblib'),
     joblib.load('./models/dumps/xgbc.joblib'),
     fit_sequential(),
-    load_model("model_autokeras", custom_objects=ak.CUSTOM_OBJECTS)
+    #load_model("model_autokeras", custom_objects=ak.CUSTOM_OBJECTS)
 ]
 
 
