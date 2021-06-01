@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import scikitplot as skplt
 import streamlit as st
 import time
+from sentence_transformers import SentenceTransformer
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
 from CONST import MODELS, MODELS_NAMES
@@ -27,8 +28,8 @@ def get_results(df, mod):
     if mod == "Sequential":
         model, X_test, y_test = MODELS.get(mod)
     else:
-        X_test, y_test = prepare_data(df)
         model = MODELS.get(mod)
+        X_test, y_test = prepare_data(df)
     y_probas = model.predict_proba(X_test)
 
     with empty:
@@ -48,4 +49,45 @@ def plot_results(y_true, y_probas, title, classes_to_plot=None):
         cmap="tab20",
         plot_macro=False
     )
+    return fig
+
+def classify_input(input, df):
+    #bert = SentenceTransformer('paraphrase-MiniLM-L6-v2')
+    #enc_bert = bert.encode(df['lemma'].astype('str'))
+    
+    vectorizer = CountVectorizer(ngram_range=(1, 2))
+    vectorizer.fit_transform(df["lemma"].apply(lambda x: np.str_(x)))
+    enc = vectorizer.transform([input])
+
+    results = []
+    for mod in MODELS:
+        print(mod)
+        model = MODELS.get(mod)
+        # if mod.endswith("(BERT)"):
+        #     enc = enc_bert
+        # else:
+        #     enc = enc_vect
+        pred = model.predict(enc)
+        probas = model.predict_proba(enc)
+        results.append([mod, pred, probas])
+    return results
+
+def show_pie_chart(df):
+    t = pd.crosstab(df.feeling, "freq")
+    t.reset_index(inplace=True)
+
+    fig = plt.figure(figsize=(10, 10))
+
+    fig.patch.set_facecolor('white')
+    # plot chart
+    ax1 = plt.subplot(111, aspect='equal')
+    t.plot(kind='pie', y='freq', ax=ax1, pctdistance=1.1, autopct='%1.1f%%',
+        startangle=90, shadow=False, labels=None, legend=False, fontsize=14)
+    plt.legend(labels=t['feeling'], bbox_to_anchor=(0, 0.85))
+    axes = plt.gca()
+    axes.set_title(' Frequency of feelings', fontsize=20, color='Black')
+
+    axes.xaxis.label.set_color("black")
+    axes.yaxis.label.set_color("black")
+
     return fig

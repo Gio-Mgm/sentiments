@@ -3,13 +3,14 @@ import pandas as pd
 import numpy as np
 #import autokeras as ak
 from sentence_transformers import SentenceTransformer
-#from models.mods.model_keras_sequential import fit_sequential
+from models.mods.model_keras_sequential import fit_sequential
 #from models.mods.logistic_regression import fit_logit_bert
 #from tensorflow.keras.models import load_model
 
 PAGES = [
     "Visualisation",
-    "Résultats"
+    "Résultats",
+    "Prédiction en direct"
 ]
 
 CLASSES = [
@@ -27,7 +28,7 @@ MODELS_NAMES = [
     #"RandomForestClassifier(BERT)",
     "XGBoostClassifier",
     #"XGBoostClassifier(BERT)",
-    "Sequential",
+    #"Sequential",
     #"Auto Keras"
 ]
 

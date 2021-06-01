@@ -1,7 +1,8 @@
 pandas==1.2.3
 streamlit==0.81.1
 joblib
-sklearn
+scikit-learn
 scikit-plot
 matplotlib
 numpy
+sentence_transformers

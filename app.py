@@ -1,7 +1,8 @@
-from functions import get_results, plot_results
+from functions import get_results, plot_results, classify_input, show_pie_chart
 from CONST import PAGES, CLASSES, MODELS_NAMES
 import pandas as pd
 import streamlit as st
+import matplotlib.pyplot as plt
 
 df = pd.read_csv("./data/02/emotions_full.csv", index_col=0)
 df_1 = pd.read_csv("./data/01/Emotion_final.csv")
@@ -21,39 +22,32 @@ st.set_page_config(
 
 page_select = st.sidebar.selectbox("Pages : ", PAGES)
 
-user_input = st.sidebar.text_input('Input').lower().capitalize()
-
 # -------------- #
 #      BODY      #
 # -------------- #
 
-
-
-#==== PAGE VISUALISATION ====#
-
+#======================= PAGE VISUALISATION =======================#
 
 empty = st.empty()
 
 if page_select == PAGES[0]:
-    empty.empty()
-    with empty.beta_container():
-        st.title("Visualisation des données.")
-        st.header("Analyse de la donnée d'entrainement")
-        st.subheader("Représentation des différentes valeurs")
+    st.title("Visualisation des données.")
+    st.header("Analyse de la donnée d'entrainement")
+    st.header("Représentation des différentes valeurs")
+    st.subheader("emotions_full.csv")
+    col1, col2, col3 = st.beta_columns(3)
+    with col1:
+        st.pyplot(show_pie_chart(df))
+    with col2:
         st.subheader("Emotion_final.csv")
-
         counts_1 = df_1.Emotion.value_counts()
-        st.dataframe(counts_1)
         st.bar_chart(counts_1)
-        st.markdown("-----------")
-
-        st.markdown("# text_emotion.csv")
+    with col3:
+        st.subheader("text_emotion.csv")
         counts_2 = df_2.sentiment.value_counts()
-        st.dataframe(counts_2)
         st.bar_chart(counts_2)
 
-#====== PAGE RESULTATS ======#
-
+#======================= PAGE RESULTATS =======================#
 
 if page_select == PAGES[1]:
     empty.empty()
@@ -72,3 +66,26 @@ if page_select == PAGES[1]:
         plots = plot_results(y_test, y_probas, title=model_select, classes_to_plot=classes_to_plot)
 
         st.pyplot(plots)
+
+#======================= PAGE PRÉDICTION =======================#
+
+
+if page_select == PAGES[2]:
+    user_input = st.text_input('Input').lower().capitalize()
+
+
+    if user_input:
+        results = classify_input(user_input,df)
+        col1, col2 = st.beta_columns(2)
+        for result in results:
+            with col1:
+                st.header(result[0])
+                st.subheader(f"Prédiction : {result[1][0]}")
+                scores = result[2].tolist()
+                for i in range(len(CLASSES)):
+                    st.text(f"Proabilité d'appartenir à la classe {CLASSES[i]} : {round(scores[0][i],5)}")
+            with col2:
+                result[2]
+                st.bar_chart(result[2].T)
+
+

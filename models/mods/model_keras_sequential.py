@@ -11,19 +11,20 @@ from tensorflow.keras.layers import Dropout, Dense
 def fit_sequential():
     df = pd.read_csv("./data/02/emotions_full.csv", index_col=0)
     train_df = pd.DataFrame()
-    MAX_COUNT = 179
-    MAX_WORDS = 5000
+    MAX_COUNT = df.feeling.value_counts()[-1]
+    print(MAX_COUNT)
+    MAX_WORDS = 600
     for el in df.feeling.unique():
             to_add = df[df["feeling"] == el][:MAX_COUNT]
             train_df = pd.concat([train_df, to_add])
 
-    train_df.feeling.value_counts()
     tokenizer = Tokenizer(num_words=MAX_WORDS)
     d_ = df[["lemma"]]
     tokenizer.fit_on_texts(d_["lemma"].astype('str'))
     le = LabelEncoder()
     y = le.fit_transform(df['feeling'])
     X = tokenizer.texts_to_matrix(df["lemma"].astype('str'))
+
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=.2, random_state=1
     )
