@@ -9,7 +9,7 @@ from sklearn.ensemble import RandomForestClassifier
 df = pd.read_csv("./data/02/emotions_full.csv", index_col=0)
 
 vectorizer = CountVectorizer(ngram_range=(1, 2))
-y = df["sentiment"]
+y = df["feeling"]
 X = vectorizer.fit_transform(df["lemma"].apply(lambda x: np.str_(x)))
 
 X_train, X_test, y_train, y_test = train_test_split(
@@ -21,7 +21,8 @@ model = RandomForestClassifier(
     criterion="gini",
     class_weight="balanced_subsample",
     n_estimators=200,
-    min_samples_leaf=5
+    min_samples_leaf=5,
+    verbose=3
 )
 
 model.fit(X_train, y_train)
