@@ -23,23 +23,16 @@ CLASSES = [
 
 MODELS_NAMES = [
     "LogisticRegression",
-    #"LogisticRegression(BERT)",
     "RandomForestClassifier",
-    #"RandomForestClassifier(BERT)",
     "XGBoostClassifier",
-    #"XGBoostClassifier(BERT)",
     #"Sequential",
     #"Auto Keras"
 ]
 
 MODELS_LOAD = [
     joblib.load('./models/dumps/logistic_regression.joblib'),
-    #joblib.load('./models/dumps/logistic_regression_bert.joblib'),
-    #fit_logit_bert(),
     joblib.load('./models/dumps/random_forest.joblib'),
-    #joblib.load('./models/dumps/random_forest_bert.joblib'),
     joblib.load('./models/dumps/xgbc.joblib'),
-    #joblib.load('./models/dumps/xgbc_bert.joblib'),
     #fit_sequential(),
     #load_model("model_autokeras", custom_objects=ak.CUSTOM_OBJECTS)
 ]

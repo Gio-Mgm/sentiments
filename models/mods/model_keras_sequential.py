@@ -2,6 +2,7 @@ import autokeras as ak
 import kerastuner as kt
 import tensorflow as tf
 import pandas as pd
+import streamlit as st
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from tensorflow.keras.preprocessing.text import Tokenizer
@@ -35,7 +36,7 @@ def fit_sequential():
     model.add(Dropout(0.3))
     model.add(Dense(26, activation='relu'))
     model.add(Dropout(0.3))
-    model.add(Dense(13, activation='softmax'))
+    model.add(Dense(5, activation='softmax'))
     model.compile(loss='sparse_categorical_crossentropy', optimizer= tf.keras.optimizers.Adam(learning_rate=0.001),
                 metrics=['accuracy'])
     model.summary()
