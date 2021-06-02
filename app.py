@@ -88,7 +88,7 @@ if page_select == PAGES[2]:
                 scores = result[2].tolist()
                 with st.beta_expander('Plus de détails'):
                     for i in range(len(CLASSES)):
-                        st.text(f"Proabilité d'appartenir à la classe {CLASSES[i]} : {round(scores[0][i],5)}")
+                        st.text(f"Probabilité d'appartenir à la classe {CLASSES[i]} : {round(scores[0][i],5)}")
 
             with col2:
                 res_df = pd.DataFrame(zip(CLASSES, list(result[2].T.flat)))
