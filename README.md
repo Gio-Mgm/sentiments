@@ -1,4 +1,7 @@
-sentiment_analysis
+# sentiment_analysis - NLP
+
+work in progress...
+
 ```
     ┣ data
     ┃ ┣ 01

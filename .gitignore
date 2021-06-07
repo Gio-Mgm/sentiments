@@ -1,7 +1,9 @@
+data/
 notebooks/
 src/
-__pycache__
-test.ipynb
-data/
-models.ipynb
 text_classifier/
+.ipynb_checkpoints/
+__pycache__/
+test.ipynb
+models.ipynb
+encoded.py
